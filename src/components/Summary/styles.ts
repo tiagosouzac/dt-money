@@ -1,5 +1,9 @@
 import styled from 'styled-components'
 
+type CardProps = {
+  variant?: 'green'
+}
+
 export const Container = styled.section`
   width: 100%;
   max-width: 1120px;
@@ -10,10 +14,6 @@ export const Container = styled.section`
   grid-template-columns: repeat(3, 1fr);
   gap: 2rem;
 `
-
-type CardProps = {
-  variant?: 'green'
-}
 
 export const Card = styled.div<CardProps>`
   padding: 2rem;

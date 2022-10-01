@@ -1,6 +1,10 @@
 import styled from 'styled-components'
 import * as Dialog from '@radix-ui/react-dialog'
 
+type TransactionTypeButtonProps = {
+  variant: 'income' | 'outcome'
+}
+
 export const Overlay = styled(Dialog.Overlay)`
   background-color: rgba(0, 0, 0, 0.75);
   position: fixed;
@@ -51,6 +55,31 @@ export const Content = styled(Dialog.Content)`
     &:hover {
       background-color: ${({ theme }) => theme['green-700']};
     }
+  }
+`
+
+export const TransactionType = styled.div`
+  margin-top: 0.5rem;
+  display: flex;
+  gap: 1rem;
+`
+
+export const TransactionTypeButton = styled.button<TransactionTypeButtonProps>`
+  flex: 1;
+  padding: 1rem;
+  border: 0;
+  border-radius: 6px;
+  background-color: ${({ theme }) => theme['gray-700']};
+  color: ${({ theme }) => theme['gray-300']};
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+
+  svg {
+    color: ${({ variant, theme }) =>
+      variant === 'income' ? theme['green-300'] : theme['red-300']};
   }
 `
 

@@ -1,5 +1,6 @@
 import styled from 'styled-components'
 import * as Dialog from '@radix-ui/react-dialog'
+import * as Radio from '@radix-ui/react-radio-group'
 
 type TransactionTypeButtonProps = {
   variant: 'income' | 'outcome'
@@ -58,19 +59,22 @@ export const Content = styled(Dialog.Content)`
   }
 `
 
-export const TransactionType = styled.div`
+export const TransactionType = styled(Radio.Root)`
   margin-top: 0.5rem;
   display: flex;
   gap: 1rem;
 `
 
-export const TransactionTypeButton = styled.button<TransactionTypeButtonProps>`
+export const TransactionTypeButton = styled(
+  Radio.Item,
+)<TransactionTypeButtonProps>`
   flex: 1;
   padding: 1rem;
   border: 0;
   border-radius: 6px;
   background-color: ${({ theme }) => theme['gray-700']};
   color: ${({ theme }) => theme['gray-300']};
+  transition: background-color 0.2s;
   cursor: pointer;
   display: flex;
   justify-content: center;
@@ -80,6 +84,20 @@ export const TransactionTypeButton = styled.button<TransactionTypeButtonProps>`
   svg {
     color: ${({ variant, theme }) =>
       variant === 'income' ? theme['green-300'] : theme['red-300']};
+  }
+
+  &[data-state='unchecked'] {
+    background-color: ${({ theme }) => theme['gray-600']};
+  }
+
+  &[data-state='checked'] {
+    background-color: ${({ variant, theme }) =>
+      variant === 'income' ? theme['green-500'] : theme['red-500']};
+    color: ${({ theme }) => theme.white};
+
+    svg {
+      color: ${({ theme }) => theme.white};
+    }
   }
 `
 

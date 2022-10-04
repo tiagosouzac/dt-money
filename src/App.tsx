@@ -1,5 +1,7 @@
-import { ThemeProvider } from 'styled-components'
+import { TransactionsProvider } from './contexts/Transactions'
 import { Transactions } from './pages/Transactions'
+
+import { ThemeProvider } from 'styled-components'
 import { GlobalStyle } from './styles/global'
 import theme from './styles/themes/default'
 
@@ -8,7 +10,9 @@ export function App() {
     <ThemeProvider theme={theme}>
       <GlobalStyle />
 
-      <Transactions />
+      <TransactionsProvider>
+        <Transactions />
+      </TransactionsProvider>
     </ThemeProvider>
   )
 }

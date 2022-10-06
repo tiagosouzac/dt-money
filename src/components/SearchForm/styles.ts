@@ -31,7 +31,12 @@ export const Container = styled.form`
     align-items: center;
     gap: 0.75rem;
 
-    &:hover {
+    &:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    &:not(:disabled):hover {
       border-color: ${({ theme }) => theme['green-500']};
       background-color: ${({ theme }) => theme['green-500']};
       color: ${({ theme }) => theme.white};

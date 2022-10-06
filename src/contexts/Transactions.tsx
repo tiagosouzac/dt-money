@@ -10,9 +10,17 @@ type Transaction = {
   createdAt: string
 }
 
+type CreateTransactionData = {
+  type: 'income' | 'outcome'
+  category: string
+  description: string
+  price: number
+}
+
 type ContextProps = {
   transactions: Transaction[]
   fetchTransactions: (query?: string) => Promise<void>
+  createTransaction: (data: CreateTransactionData) => Promise<void>
 }
 
 type ProviderProps = {
@@ -28,10 +36,26 @@ export function TransactionsProvider({ children }: ProviderProps) {
     const { data } = await api.get('/transactions', {
       params: {
         q: query,
+        _sort: 'createdAt',
+        _order: 'desc',
       },
     })
 
     setTransactions(data)
+  }
+
+  const createTransaction = async (data: CreateTransactionData) => {
+    const { type, category, description, price } = data
+
+    const { data: transactionCreated } = await api.post('/transactions', {
+      type,
+      category,
+      description,
+      price,
+      createdAt: new Date(),
+    })
+
+    setTransactions((prev) => [...prev, transactionCreated])
   }
 
   useEffect(() => {
@@ -43,6 +67,7 @@ export function TransactionsProvider({ children }: ProviderProps) {
       value={{
         transactions,
         fetchTransactions,
+        createTransaction,
       }}
     >
       {children}

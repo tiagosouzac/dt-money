@@ -1,4 +1,10 @@
-import { createContext, ReactNode, useEffect, useState } from 'react'
+import {
+  createContext,
+  ReactNode,
+  useCallback,
+  useEffect,
+  useState,
+} from 'react'
 import { api } from '../api'
 
 type Transaction = {
@@ -32,7 +38,7 @@ export const TransactionsContext = createContext({} as ContextProps)
 export function TransactionsProvider({ children }: ProviderProps) {
   const [transactions, setTransactions] = useState<Transaction[]>([])
 
-  const fetchTransactions = async (query?: string) => {
+  const fetchTransactions = useCallback(async (query?: string) => {
     const { data } = await api.get('/transactions', {
       params: {
         q: query,
@@ -42,9 +48,9 @@ export function TransactionsProvider({ children }: ProviderProps) {
     })
 
     setTransactions(data)
-  }
+  }, [])
 
-  const createTransaction = async (data: CreateTransactionData) => {
+  const createTransaction = useCallback(async (data: CreateTransactionData) => {
     const { type, category, description, price } = data
 
     const { data: transactionCreated } = await api.post('/transactions', {
@@ -56,7 +62,7 @@ export function TransactionsProvider({ children }: ProviderProps) {
     })
 
     setTransactions((prev) => [...prev, transactionCreated])
-  }
+  }, [])
 
   useEffect(() => {
     fetchTransactions()
